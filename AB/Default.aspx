@@ -1,79 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
-<head>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<script type="text/javascript">
+    $(function () {
+        getFBPosts();
+        getAdsDetails_actuals();
+    });
+    var fb_posts;
+    function getFBPosts() {
+        var data = { 'op': 'getFBPosts' };
+        var s = function (msg) {
+            if (msg) {
+                fb_posts = msg;
+                display_fb_posts();
+            }
+            else {
+                document.location = "Default.aspx";
+            }
+        }
+        var e = function (x, h, e) {
+            alert(e.toString());
+        };
+        callHandler(data, s, e);
+    }
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    function getAdsDetails_actuals() {
+        var data = { 'op': 'getAdsDetails_actuals' };
+        var s = function (msg) {
+            if (msg) {
+                var fb_enable = msg;
+                for (var i = 0; i < fb_enable.length; i++) {
+                    if (fb_enable[i].status == 1) {
+                        $("#chck").css("display", "block");
+                    }
+                    else {
+                        $("#chck").css("display", "none");
+                    }
+                }
 
-    <link href="css/modern-business.css" rel="stylesheet" type="text/css" />
-    <title>Apna Bazaar | Home</title>
+            }
+            else {
+                document.location = "Default.aspx";
+            }
+        }
+        var e = function (x, h, e) {
+            alert(e.toString());
+        };
+        callHandler(data, s, e);
+    }
 
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/modern-business.css" rel="stylesheet">
+    function display_fb_posts() {
+        var results = "";
+        for (var i = 0; i < 1; i++) {
+            if (fb_posts[i].PostPictureUri != null) {
+                var PostMessage = fb_posts[i].PostMessage;
+                var PostPictureUri = fb_posts[i].PostPictureUri;
+                results += '<center><a href="#"><img class="img-responsive" alt="img" src="' + fb_posts[i].PostPictureUri + '"/></a></center> </br>';
+                $("#fb_posts_display").html(results);
+            }
+        }
 
-    <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container" style=" padding: 10px 0;">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">
-                <img src="images/logo5.png" 
-                    style="width:220px;height:69px; margin-left: 38px; margin-top: -24px;"/></a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-               <center> <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="about.html">About</a>
-                    </li>
-                    <li>
-                        <a href="services.html">Apna Chat Bhavan</a>
-                    </li>
-                    <li>
-                        <a href="contact.html">Grocery</a>
-                    </li>
-                     <li>
-                        <a href="contact.html">Vegetables</a>
-                    </li>
-                     <li>
-                        <a href="contact.html">Contact</a>
-                    </li>
-                </ul>
-                </center>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Header Carousel -->
-        <br />
+    }
+   </script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
@@ -114,14 +104,33 @@
         <div class="row">
             <div class="col-lg-12">
                 <center><h3 class="page-header">
-                    Welcome to Apna Bazaar Pdx
+                    Welcome to Apna Bazaar
                 </h3></center>
 
                 <br />
-                <div class="container"><marquee style="color:red;"><h3><b>Welcome to Apna Bazaar..Signup for Latest Offers</b></h3> </marquee></div>
+                <div class="container"><marquee style="color:red;"><h3><b>Welcome to Apna Bazaar</b></h3> </marquee></div>
                 <br />
                 <br />
-                <div class="container"><center><img src="img/offers.gif"/></center></div>
+                <div class="container" id="chck" style="display:none;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">        
+          <div class="img-responsive">
+            <a href="#"><center><img class="img-responsive" src="img/offers.gif" alt="offers"></center>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+          <div class="col-lg-12">
+            <div class="img-responsive" id="fb_posts_display">
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
 <br /><br />
         <div class="row">
             <div class="col-lg-12">
@@ -190,39 +199,6 @@
                  <center> <img class="img-responsive img-portfolio img-hover" src="bakery/1.jpg" alt=""></center>  
             </div>
                     </div>
-                    <div class="tab-pane fade" id="service-four">
-                     <br />
-                             <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-                    </div>
                 </div>
 
             </div>
@@ -243,7 +219,7 @@
       <p><span class="glyphicon glyphicon-map-marker"></span> Apna Bazaar
 6, 1815 NW 169th Place #6022,Beaverton, OR 97006.</p>
       <p><span class="glyphicon glyphicon-phone"></span><a href="tel:503-533-0424">+1 503-533-0424</a> </p>
-      <p><span class="glyphicon glyphicon-envelope"></span><a href="mailto:contactus@apnabazaarpdx.com">contactus@apnabazaarpdx.com</a></p>
+      <p><span class="glyphicon glyphicon-envelope"></span><a href="mailto:contactus@apnabazaarpdx.com">  contactus@apnabazaarpdx.com</a></p>
     </div>
     <div class="col-sm-7 slideanim">
       <div class="row">
@@ -267,32 +243,5 @@
              <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d44718.1334851635!2d-122.8889948234214!3d45.532553049949755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x54950f38ed029479%3A0x52396cc587de636f!2sapna+bazar!3m2!1d45.5325584!2d-122.85397549999999!5e0!3m2!1sen!2sus!4v1475618862434" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen=""></iframe>
 
 </div>
+</asp:Content>
 
-
-<footer class="container-fluid text-center">
-  <a href="#myPage" title="To Top">
-    <span class="glyphicon glyphicon-chevron-up"></span>
-  </a>
-  <p>Designed by <a href="http://apnabazaarpdx.com/" title="Visit Apna Bazaar">Apna Bazaar</a></p>
-</footer>
-
-
-    </div>
-    <!-- /.container -->
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 5000 //changes the speed
-    })
-    </script>
-
-</body>
-
-</html>

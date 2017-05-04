@@ -351,7 +351,7 @@ namespace callme
 
             string oauthUrl = string.Format("https://graph.facebook.com/oauth/access_token?type=client_cred&client_id={0}&client_secret={1}", AppId, AppSecret);
 
-            string accessToken = client.DownloadString(oauthUrl).Split('=')[1];
+            string accessToken = "748261398644925|duqVVR6GgaXta4UgrzonQm3SgvY";
 
             FacebookClient myfbclient = new FacebookClient(accessToken);
             var parameters = new Dictionary<string, object>();
