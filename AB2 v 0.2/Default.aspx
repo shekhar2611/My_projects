@@ -61,7 +61,125 @@
         }
 
     }
-   </script>
+    function empty_leave_message() {
+        document.getElementById('name').value = "";
+        document.getElementById('email').value = "";
+        document.getElementById('subject').value = "";
+        document.getElementById('message').value = ""
+    }
+
+    function Leave_message() {
+        var name = document.getElementById('name').value;
+        if (name == null || name == "") {
+            document.getElementById("name").focus();
+            check_name();
+            return false;
+        }
+        var email = document.getElementById('email').value;
+        if (email == null || email == "") {
+            document.getElementById("email").focus();
+            check_mail();
+            return false;
+        }
+
+        var subject = document.getElementById('subject').value;
+        if (subject == null || subject == "") {
+            document.getElementById("subject").focus();
+            check_subject();
+            return false;
+        }
+
+        var message = document.getElementById('message').value;
+        if (message == null || message == "") {
+            document.getElementById("message").focus();
+            check_message();
+            return false;
+        }
+
+        var data = { 'op': 'Leave_message', 'name': name, "email": email, "subject": subject, "message": message };
+        var s = function (msg) {
+            if (msg) {
+                if (msg == "Message successfully sent!") {
+                    loading_gif_stop();
+                    Message_success();
+                    empty_leave_message();
+                }
+                else {
+                    loading_gif_stop();
+                    Message_failed();
+                    empty_leave_message();
+                }
+
+            }
+            else {
+                document.location = "Default.aspx";
+            }
+        }
+        var e = function (x, h, e) {
+            alert(e.toString());
+        };
+        callHandler(data, s, e);
+        loading_gif_start();
+    }
+
+
+
+    function loading_gif_start() {
+
+        $("#gif_load").css("display", "block");
+
+
+    }
+    function loading_gif_stop() {
+
+        $("#gif_load").css("display", "none");
+
+
+    }
+
+    function check_mail() {
+        $("#check_mail").css("display", "block");
+        $("#check_name").css("display", "none");
+        $("#check_subject").css("display", "none");
+        $("#check_message").css("display", "none");
+    }
+    function check_name() {
+        $("#check_mail").css("display", "none");
+        $("#check_name").css("display", "block");
+        $("#check_subject").css("display", "none");
+        $("#check_message").css("display", "none");
+    }
+    function check_subject() {
+        $("#check_mail").css("display", "none");
+        $("#check_name").css("display", "none");
+        $("#check_subject").css("display", "block");
+        $("#check_message").css("display", "none");
+    }
+    function check_message() {
+        $("#check_mail").css("display", "none");
+        $("#check_name").css("display", "none");
+        $("#check_subject").css("display", "none");
+        $("#check_message").css("display", "block");
+    }
+    function check_data() {
+        $("#check_mail").css("display", "none");
+        $("#check_name").css("display", "none");
+        $("#check_subject").css("display", "none");
+        $("#check_message").css("display", "none");
+    }
+    function Message_success() {
+        $("#Message_failed").css("display", "none");
+        $("#Message_success").css("display", "block");
+        $("#check_message").css("display", "none");
+    }
+    function Message_failed() {
+        $("#Message_failed").css("display", "block");
+        $("#Message_success").css("display", "none");
+        $("#check_message").css("display", "none");
+
+    }
+      
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
@@ -230,11 +348,17 @@
           <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
         </div>
       </div>
-      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+          <input class="form-control" id="subject" name="email" placeholder="Subject" type="email" required>
+          <br />
+      <textarea class="form-control" id="message" name="comments" placeholder="Comment" rows="5"></textarea><br>
       <div class="row">
         <div class="col-sm-12 form-group">
-         <center> <button class="btn btn-default pull-right" type="submit">Send Message</button></center>
+         <center> <button class="btn btn-primary" type="button" onclick="Leave_message();">Send Message</button><div id="gif_load" style="display:none;" ><img  src="images/loader.gif" alt="" style="height:40px;width:40px"/></center>
+           
         </div>
+       <br /></div> <br />
+                 <br /><div id="Message_failed" class="s-12 alert alert-danger" style="display:none;"><center><p style="color:red"><b>Message Sending Failed!</b></p><center></div> 
+                  <div id="Message_success" class="s-12 alert alert-success" style="display:none;"><center><p style="color:Green"><b>Thank You for Contacting us! We will contact u within short time..</b></p></center></div> 
       </div>
     </div>
   </div>

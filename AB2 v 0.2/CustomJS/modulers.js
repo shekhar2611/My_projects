@@ -144,3 +144,29 @@ function CallHandlerUsingJson_POST(d, s, e) {
         error: e
     });
 }
+
+jQuery(window).scroll(function () {
+    if (jQuery(this).scrollTop() > 300) {
+        jQuery('.scrollToTop').fadeIn();
+    } else {
+        jQuery('.scrollToTop').fadeOut();
+    }
+});
+
+//Click event to scroll to top
+
+jQuery('.scrollToTop').click(function () {
+    jQuery('html, body').animate({ scrollTop: 0 }, 800);
+    return false;
+});
+
+/* ----------------------------------------------------------- */
+/*  13. PRELOADER
+/* ----------------------------------------------------------- */
+
+jQuery(window).load(function () { // makes sure the whole site is loaded      
+    jQuery('#aa-preloader-area').delay(300).fadeOut('slow'); // will fade out      
+})
+   
+  
+
